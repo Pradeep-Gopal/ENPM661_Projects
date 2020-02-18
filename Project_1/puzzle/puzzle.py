@@ -5,9 +5,9 @@ import os
 
 # Choose your puzzle or enter one manually
 
-Node_State = np.array([[1, 0, 3], [4, 2, 5], [7, 8, 6]])  # simplest
-# Node_State = np.array([[2,8,3],[1,6,4],[7,0,5]]) #takes_lot_of_time
-# Node_State = np.array([[2,4,3],[7,8,0],[6,1,5]])  #working_maybe_a_min
+#Node_State = np.array([[1, 0, 3], [4, 2, 5], [7, 8, 6]])  # simplest
+# Node_State = np.array([[2, 8, 3], [1, 6, 4], [7, 0, 5]])  # takes_lot_of_time
+Node_State = np.array([[2, 4, 3], [7, 8, 0], [6, 1, 5]])  # working_maybe_a_min
 # Node_State = np.array([[1, 0, 2], [4, 6, 8], [7, 3, 5]])  # working_instant
 # Node_State = np.array([[4,8,1],[5,2,0],[7,6,3]]) #working_instant
 # Node_State = np.array([[7,2,3],[1,5,6],[4,8,0]]) #working_maybe_a_min
@@ -41,63 +41,111 @@ def BlankTileLocation(state):
                 return [i, j]
 
 
-def ActionMoveLeft(state):
+# def ActionMoveLeft(state):
+#     New_state = state.copy()
+#     for i in range(0, len(New_state[1])):
+#         for j in range(0, len(New_state[1])):
+#             if state[i, j] == 0:
+#                 if j == 0:
+#                     # print("cannot perform left movement")
+#                     return [0, state]
+#                 else:
+#                     # print("left movement performed")
+#                     New_state[i, j - 1], New_state[i, j] = New_state[i, j], New_state[i, j - 1]
+#                     return [1, New_state]
+#
+#
+# def ActionMoveRight(state):
+#     New_state = state.copy()
+#     for i in range(0, len(New_state[1])):
+#         for j in range(0, len(New_state[1])):
+#             if state[i, j] == 0:
+#                 if j == 2:
+#                     # print("cannot perform Right movement")
+#                     return [0, state]
+#
+#                 else:
+#                     # print("right movement performed")
+#                     New_state[i, j + 1], New_state[i, j] = New_state[i, j], New_state[i, j + 1]
+#                     return [1, New_state]
+#
+#
+# def ActionMoveUp(state):
+#     New_state = state.copy()
+#     for i in range(0, len(New_state[1])):
+#         for j in range(0, len(New_state[1])):
+#             if state[i, j] == 0:
+#                 if i == 0:
+#                     # print("cannot perform Up movement")
+#                     return [0, state]
+#
+#                 else:
+#                     # print("up movement performed")
+#                     New_state[i - 1, j], New_state[i, j] = New_state[i, j], New_state[i - 1, j]
+#                     return [1, New_state]
+#
+#
+# def ActionMoveDown(state):
+#     New_state = state.copy()
+#     for i in range(0, len(New_state[1])):
+#         for j in range(0, len(New_state[1])):
+#             if state[i, j] == 0:
+#                 if i == 2:
+#                     # print("cannot perform Down movement")
+#                     return [0, state]
+#
+#                 else:
+#                     # print("Down movement performed")
+#                     New_state[i + 1, j], New_state[i, j] = New_state[i, j], New_state[i + 1, j]
+#                     return [1, New_state]
+
+
+def ActionMoveLeft(state, i, j):
     New_state = state.copy()
-    for i in range(0, len(New_state[1])):
-        for j in range(0, len(New_state[1])):
-            if state[i, j] == 0:
-                if j == 0:
-                    # print("cannot perform left movement")
-                    return [0, state]
-                else:
-                    # print("left movement performed")
-                    New_state[i, j - 1], New_state[i, j] = New_state[i, j], New_state[i, j - 1]
-                    return [1, New_state]
+    if j == 0:
+        # print("cannot perform left movement")
+        return [0, state]
+    else:
+        # print("left movement performed")
+        New_state[i, j - 1], New_state[i, j] = New_state[i, j], New_state[i, j - 1]
+        return [1, New_state]
 
 
-def ActionMoveRight(state):
+def ActionMoveRight(state, i, j):
     New_state = state.copy()
-    for i in range(0, len(New_state[1])):
-        for j in range(0, len(New_state[1])):
-            if state[i, j] == 0:
-                if j == 2:
-                    # print("cannot perform Right movement")
-                    return [0, state]
-
-                else:
-                    # print("right movement performed")
-                    New_state[i, j + 1], New_state[i, j] = New_state[i, j], New_state[i, j + 1]
-                    return [1, New_state]
+    if j == 2:
+        # print("cannot perform Right movement")
+        return [0, state]
 
 
-def ActionMoveUp(state):
+    else:
+        # print("right movement performed")
+        New_state[i, j + 1], New_state[i, j] = New_state[i, j], New_state[i, j + 1]
+        return [1, New_state]
+
+
+def ActionMoveUp(state, i, j):
     New_state = state.copy()
-    for i in range(0, len(New_state[1])):
-        for j in range(0, len(New_state[1])):
-            if state[i, j] == 0:
-                if i == 0:
-                    # print("cannot perform Up movement")
-                    return [0, state]
+    if i == 0:
+        # print("cannot perform Up movement")
+        return [0, state]
 
-                else:
-                    # print("up movement performed")
-                    New_state[i - 1, j], New_state[i, j] = New_state[i, j], New_state[i - 1, j]
-                    return [1, New_state]
+    else:
+        # print("up movement performed")
+        New_state[i - 1, j], New_state[i, j] = New_state[i, j], New_state[i - 1, j]
+        return [1, New_state]
 
 
-def ActionMoveDown(state):
+def ActionMoveDown(state, i, j):
     New_state = state.copy()
-    for i in range(0, len(New_state[1])):
-        for j in range(0, len(New_state[1])):
-            if state[i, j] == 0:
-                if i == 2:
-                    # print("cannot perform Down movement")
-                    return [0, state]
+    if i == 2:
+        # print("cannot perform Down movement")
+        return [0, state]
 
-                else:
-                    # print("Down movement performed")
-                    New_state[i + 1, j], New_state[i, j] = New_state[i, j], New_state[i + 1, j]
-                    return [1, New_state]
+    else:
+        # print("Down movement performed")
+        New_state[i + 1, j], New_state[i, j] = New_state[i, j], New_state[i + 1, j]
+        return [1, New_state]
 
 
 def AddNode(New_N):
@@ -124,25 +172,28 @@ def Check_and_Add(state1):
     global NewNode2
     global NewNode3
     global NewNode4
-    [Status, NewNode] = ActionMoveLeft(state1)
+
+    [i, j] = BlankTileLocation(state1)
+
+    [Status, NewNode] = ActionMoveLeft(state1, i, j)
     # print(NewNode)
     AddNode(NewNode)
     # print("")
     NewNode1 = NewNode.copy()
 
-    [Status, NewNode] = ActionMoveUp(state1)
+    [Status, NewNode] = ActionMoveUp(state1, i, j)
     # print(NewNode)
     AddNode(NewNode)
     # print("")
     NewNode2 = NewNode.copy()
 
-    [Status, NewNode] = ActionMoveRight(state1)
+    [Status, NewNode] = ActionMoveRight(state1, i, j)
     # print(NewNode)
     AddNode(NewNode)
     # print("")
     NewNode3 = NewNode.copy()
 
-    [Status, NewNode] = ActionMoveDown(state1)
+    [Status, NewNode] = ActionMoveDown(state1, i, j)
     # print(NewNode)
     AddNode(NewNode)
     # print("")
@@ -232,7 +283,7 @@ def nodePath_filegen(notepad_path):
     # Creates the nodePath.txt File
 
     # Before creating
-    dir_list = os.listdir(path)
+    # dir_list = os.listdir(path)
 
     # Creates a new file
     with open('nodePath.txt', 'w') as fp:
@@ -242,14 +293,14 @@ def nodePath_filegen(notepad_path):
             fp.write("\n")
 
     # After creating
-    dir_list = os.listdir(path)
+    # dir_list = os.listdir(path)
 
 
 def NodesInfo_filegen(ParentNodes):
     # Creates the NodesInfo.txt File
 
     # Before creating
-    dir_list = os.listdir(path)
+    # dir_list = os.listdir(path)
 
     # Creates a new file
     with open('NodesInfo.txt', 'w') as fp:
@@ -263,14 +314,14 @@ def NodesInfo_filegen(ParentNodes):
             fp.write("\n")
 
     # After creating
-    dir_list = os.listdir(path)
+    # dir_list = os.listdir(path)
 
 
 def Nodes_filegen(AllNodes):
     # Creates the Nodes.txt File
 
     # Before creating
-    dir_list = os.listdir(path)
+    # dir_list = os.listdir(path)
 
     # Creates a new file
     with open('Nodes.txt', 'w') as fp:
@@ -280,7 +331,7 @@ def Nodes_filegen(AllNodes):
             fp.write("\n")
 
     # After creating
-    dir_list = os.listdir(path)
+    # dir_list = os.listdir(path)
 
 
 while ((not (np.array_equal(NewNode1, Goal_Node))) and (not (np.array_equal(NewNode2, Goal_Node))) and (
@@ -316,8 +367,6 @@ print("")
 print_optimalpath(goal_path)
 
 # Creates the .txt Files
-path = '/home/prachu/Desktop/UMD_Robotics/Courses/ENPM661_Planning/ENPM661_Projects/'
 nodePath_filegen(notepad_path)
 NodesInfo_filegen(ParentNodes)
 Nodes_filegen(AllNodes)
-
