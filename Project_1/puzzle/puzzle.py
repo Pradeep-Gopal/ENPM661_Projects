@@ -1,18 +1,29 @@
 import numpy as np
 import os
 
-# Variables Initialization
+# Creating an empty matrix to get the input matrix from
+Node_State = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+print("\n")
+print("Enter the elements of the puzzle in row wise fashion")
+for i in range(0, len(Node_State[1])):
+    for j in range(0, len(Node_State[1])):
+        Node_State[i][j] = input()
 
-# Choose your puzzle or enter one manually
+print("\n")
+print("The jumbled puzzle is : \n")
+print(Node_State)
+print("\n")
+print("**************Wait till the puzzle is solved***************** \n")
 
-#Node_State = np.array([[1, 0, 3], [4, 2, 5], [7, 8, 6]])  # simplest
+# Choose one
+# Node_State = np.array([[1, 0, 3], [4, 2, 5], [7, 8, 6]])  # simplest
 # Node_State = np.array([[2, 8, 3], [1, 6, 4], [7, 0, 5]])  # takes_lot_of_time
-Node_State = np.array([[2, 4, 3], [7, 8, 0], [6, 1, 5]])  # working_maybe_a_min
+# Node_State = np.array([[2, 4, 3], [7, 8, 0], [6, 1, 5]])  # working_maybe_a_min
 # Node_State = np.array([[1, 0, 2], [4, 6, 8], [7, 3, 5]])  # working_instant
-# Node_State = np.array([[4,8,1],[5,2,0],[7,6,3]]) #working_instant
-# Node_State = np.array([[7,2,3],[1,5,6],[4,8,0]]) #working_maybe_a_min
+# Node_State = np.array([[4, 8, 1], [5, 2, 0], [7, 6, 3]]) # working_instant
+Node_State = np.array([[7, 2, 3], [1, 5, 6], [4, 8, 0]])  # working_maybe_a_min
 
-
+# Variables Initialization
 Goal_Node = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 0]])
 ParentNodes = {1: 0}
 AllNodes = {1: Node_State}
@@ -39,65 +50,6 @@ def BlankTileLocation(state):
         for j in range(0, len(Node_State[1])):
             if state[i, j] == 0:
                 return [i, j]
-
-
-# def ActionMoveLeft(state):
-#     New_state = state.copy()
-#     for i in range(0, len(New_state[1])):
-#         for j in range(0, len(New_state[1])):
-#             if state[i, j] == 0:
-#                 if j == 0:
-#                     # print("cannot perform left movement")
-#                     return [0, state]
-#                 else:
-#                     # print("left movement performed")
-#                     New_state[i, j - 1], New_state[i, j] = New_state[i, j], New_state[i, j - 1]
-#                     return [1, New_state]
-#
-#
-# def ActionMoveRight(state):
-#     New_state = state.copy()
-#     for i in range(0, len(New_state[1])):
-#         for j in range(0, len(New_state[1])):
-#             if state[i, j] == 0:
-#                 if j == 2:
-#                     # print("cannot perform Right movement")
-#                     return [0, state]
-#
-#                 else:
-#                     # print("right movement performed")
-#                     New_state[i, j + 1], New_state[i, j] = New_state[i, j], New_state[i, j + 1]
-#                     return [1, New_state]
-#
-#
-# def ActionMoveUp(state):
-#     New_state = state.copy()
-#     for i in range(0, len(New_state[1])):
-#         for j in range(0, len(New_state[1])):
-#             if state[i, j] == 0:
-#                 if i == 0:
-#                     # print("cannot perform Up movement")
-#                     return [0, state]
-#
-#                 else:
-#                     # print("up movement performed")
-#                     New_state[i - 1, j], New_state[i, j] = New_state[i, j], New_state[i - 1, j]
-#                     return [1, New_state]
-#
-#
-# def ActionMoveDown(state):
-#     New_state = state.copy()
-#     for i in range(0, len(New_state[1])):
-#         for j in range(0, len(New_state[1])):
-#             if state[i, j] == 0:
-#                 if i == 2:
-#                     # print("cannot perform Down movement")
-#                     return [0, state]
-#
-#                 else:
-#                     # print("Down movement performed")
-#                     New_state[i + 1, j], New_state[i, j] = New_state[i, j], New_state[i + 1, j]
-#                     return [1, New_state]
 
 
 def ActionMoveLeft(state, i, j):
