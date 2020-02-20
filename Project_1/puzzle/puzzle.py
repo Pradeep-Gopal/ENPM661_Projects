@@ -1,3 +1,4 @@
+# Importing the libraries
 import numpy as np
 import os
 
@@ -21,7 +22,7 @@ print("**************Wait till the puzzle is solved***************** \n")
 # Node_State = np.array([[2, 4, 3], [7, 8, 0], [6, 1, 5]])  # working_maybe_a_min
 # Node_State = np.array([[1, 0, 2], [4, 6, 8], [7, 3, 5]])  # working_instant
 # Node_State = np.array([[4, 8, 1], [5, 2, 0], [7, 6, 3]]) # working_instant
-Node_State = np.array([[7, 2, 3], [1, 5, 6], [4, 8, 0]])  # working_maybe_a_min
+# Node_State = np.array([[7, 2, 3], [1, 5, 6], [4, 8, 0]])  # working_maybe_a_min
 
 # Variables Initialization
 Goal_Node = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 0]])
@@ -45,6 +46,7 @@ note_path = 0
 
 # Functions
 
+# Function to get the Blank tile location
 def BlankTileLocation(state):
     for i in range(0, len(Node_State[1])):
         for j in range(0, len(Node_State[1])):
@@ -52,6 +54,7 @@ def BlankTileLocation(state):
                 return [i, j]
 
 
+# Moves the 0 to the left position
 def ActionMoveLeft(state, i, j):
     New_state = state.copy()
     if j == 0:
@@ -63,31 +66,31 @@ def ActionMoveLeft(state, i, j):
         return [1, New_state]
 
 
+# Moves the 0 to the right position
 def ActionMoveRight(state, i, j):
     New_state = state.copy()
     if j == 2:
         # print("cannot perform Right movement")
         return [0, state]
-
-
     else:
         # print("right movement performed")
         New_state[i, j + 1], New_state[i, j] = New_state[i, j], New_state[i, j + 1]
         return [1, New_state]
 
 
+# Moves the 0 to the up position
 def ActionMoveUp(state, i, j):
     New_state = state.copy()
     if i == 0:
         # print("cannot perform Up movement")
         return [0, state]
-
     else:
         # print("up movement performed")
         New_state[i - 1, j], New_state[i, j] = New_state[i, j], New_state[i - 1, j]
         return [1, New_state]
 
 
+# Moves the 0 to the down position
 def ActionMoveDown(state, i, j):
     New_state = state.copy()
     if i == 2:
@@ -100,17 +103,16 @@ def ActionMoveDown(state, i, j):
         return [1, New_state]
 
 
+# Adds the New node to the AllNodes dictionary
 def AddNode(New_N):
     global a
     global b
     global flag
     flag = 1
-
     for values in AllNodes.values():
         if (values == New_N).all():
             flag = 0
             # print("present_do not add")
-
     if flag == 1:
         # print("Not present_do add")
         a = a + 1
@@ -118,6 +120,7 @@ def AddNode(New_N):
         ParentNodes[a] = b
 
 
+# Function which runs all the movement of '0' functions
 def Check_and_Add(state1):
     global b
     global NewNode1
@@ -155,22 +158,23 @@ def Check_and_Add(state1):
     b = b + 1
 
 
+# Function to return the key value for a certain value in AllNodes Dictionary
 def get_key_AllNodes(val):
     for key, value in AllNodes.items():
         if (val == value).all():
             return key
-
     return "key doesn't exist"
 
 
+# Function to return the key value for a certain value in ParentNodes Dictionary
 def get_key_ParentNodes(val):
     for key, value in ParentNodes.items():
         if val == value:
             return key
-
     return "key doesn't exist"
 
 
+# Deletes excess Nodes in the Allnodes Dictionary after the Goal Node
 def clean_AllNodes(AllNodes):
     key = get_key_AllNodes(Goal_Node)
     length = len(AllNodes)
@@ -179,6 +183,7 @@ def clean_AllNodes(AllNodes):
         AllNodes.pop(key, None)
 
 
+# Generates the path using reverse tracking
 def generate_path(p_nodes):
     Start_key = get_key_AllNodes(Node_State)
     print("Start_key =")
@@ -204,6 +209,7 @@ def generate_path(p_nodes):
     return path
 
 
+# Function to print the path from the Dictiionary
 def print_optimalpath(path):
     global note_path
     global notepad_path
@@ -217,6 +223,7 @@ def print_optimalpath(path):
         print("")
 
 
+# Converts List to string
 def listToString(s):
     # initialize an empty string
     str1 = ""
@@ -231,11 +238,9 @@ def listToString(s):
     return str1
 
 
+# Creates the nodePath.txt file
 def nodePath_filegen(notepad_path):
     # Creates the nodePath.txt File
-
-    # Before creating
-    # dir_list = os.listdir(path)
 
     # Creates a new file
     with open('nodePath.txt', 'w') as fp:
@@ -244,15 +249,10 @@ def nodePath_filegen(notepad_path):
             fp.write(listToString(m))
             fp.write("\n")
 
-    # After creating
-    # dir_list = os.listdir(path)
 
-
+# Creates the NodesInfo.txt File
 def NodesInfo_filegen(ParentNodes):
     # Creates the NodesInfo.txt File
-
-    # Before creating
-    # dir_list = os.listdir(path)
 
     # Creates a new file
     with open('NodesInfo.txt', 'w') as fp:
@@ -265,15 +265,10 @@ def NodesInfo_filegen(ParentNodes):
             fp.write("0")
             fp.write("\n")
 
-    # After creating
-    # dir_list = os.listdir(path)
 
-
+# Creates the Nodes.txt File
 def Nodes_filegen(AllNodes):
     # Creates the Nodes.txt File
-
-    # Before creating
-    # dir_list = os.listdir(path)
 
     # Creates a new file
     with open('Nodes.txt', 'w') as fp:
@@ -282,10 +277,8 @@ def Nodes_filegen(AllNodes):
             fp.write(listToString(value))
             fp.write("\n")
 
-    # After creating
-    # dir_list = os.listdir(path)
 
-
+# Loops until the Goal Node is reached
 while ((not (np.array_equal(NewNode1, Goal_Node))) and (not (np.array_equal(NewNode2, Goal_Node))) and (
         not (np.array_equal(NewNode3, Goal_Node))) and (not (np.array_equal(NewNode4, Goal_Node)))):
     # global next_node
