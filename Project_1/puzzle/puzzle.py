@@ -1,6 +1,5 @@
 # Importing the libraries
 import numpy as np
-import os
 
 # Creating an empty matrix to get the input matrix from
 Node_State = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
