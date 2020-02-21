@@ -16,17 +16,28 @@ Steps to Run:
 	For example, Consider a puzzle like this
 
 	1 2 3
+	
 	4 5 6 
+	
 	7 8 0
 Enter the elements in the row-wise fashion like,
+
 	1
+	
 	2
+	
 	3
+	
 	4
+	
 	5
+	
 	6
+	
 	7	
+	
 	8	
+	
 	0
 
 2) The script generates 3 other text files, which gets saved in the same directory as the source file.
