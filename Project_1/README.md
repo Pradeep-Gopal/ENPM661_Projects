@@ -13,6 +13,7 @@ Time - This module provides various time-related functions. In this program, its
 Steps to Run:
 
 1) Run the puzzle.py file and enter the puzzle to be solved in the ROW - wise fashion.
+
 	For example, Consider a puzzle like this
 
 	1 2 3
@@ -20,6 +21,7 @@ Steps to Run:
 	4 5 6 
 	
 	7 8 0
+	
 Enter the elements in the row-wise fashion like,
 
 	1
