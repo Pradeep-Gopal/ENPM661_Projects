@@ -14,7 +14,7 @@ def print_matrix(state):
         print("\n-------------")
 
 
-fname = 'nodePath.txt'
+fname = 'Nodes.txt'
 data = np.loadtxt(fname)
 if len(data[1]) is not 9:
     print("Format of the text file is incorrect, retry ")

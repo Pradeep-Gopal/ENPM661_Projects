@@ -1,14 +1,21 @@
 # Importing the libraries
 import numpy as np
+import time
 
 # Creating an empty matrix to get the input matrix from
 Node_State = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+solve = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+x = 0
 print("\n")
 print("Enter the elements of the puzzle in row wise fashion")
 for i in range(0, len(Node_State[1])):
     for j in range(0, len(Node_State[1])):
         Node_State[i][j] = input()
+        solve[x] = Node_State[i][j]
+        x = x+1
 
+solve.remove(0)
+start_time = time.time()
 print("\n")
 print("The jumbled puzzle is : \n")
 print(Node_State)
@@ -44,6 +51,24 @@ note_path = 0
 
 
 # Functions
+
+# Function to check if the given puzzle is solvable or not
+def solvability(check):
+    inversions = 0
+    for i in range(0, len(check)):
+        for j in range(i + 1, len(check)):
+            if check[j] > check[i]:
+                inversions = inversions + 1
+    # print(inversions)
+    if ((inversions % 2) == 1):
+        print("\n")
+        print("\n")
+        print("*********************Puzzle is not solvable************************")
+        return 0
+    else:
+        print("*************************Puzzle is solvable*************************")
+        return 1
+
 
 # Function to get the Blank tile location
 def BlankTileLocation(state):
@@ -102,15 +127,38 @@ def ActionMoveDown(state, i, j):
         return [1, New_state]
 
 
-# Adds the New node to the AllNodes dictionary
+# Adds the New node to the AllNodes dictionary # Takes more time to compute
+# def AddNode(New_N):
+#     global a
+#     global b
+#     global flag
+#     flag = 1
+#     for values in AllNodes.values():
+#         if (values == New_N).all():
+#             flag = 0
+#             # print("present_do not add")
+#     if flag == 1:
+#         # print("Not present_do add")
+#         a = a + 1
+#         AllNodes[a] = New_N
+#         ParentNodes[a] = b
+
+
+# Adds the New node to the AllNodes dictionary # Takes less time to compute
 def AddNode(New_N):
     global a
     global b
     global flag
+
     flag = 1
+
     for values in AllNodes.values():
-        if (values == New_N).all():
+        if values[0][0] != New_N[0][0]:
+            # print("different node")
+            flag = 1
+        elif (values == New_N).all():
             flag = 0
+            break
             # print("present_do not add")
     if flag == 1:
         # print("Not present_do add")
@@ -278,39 +326,46 @@ def Nodes_filegen(AllNodes):
 
 
 # Loops until the Goal Node is reached
-while ((not (np.array_equal(NewNode1, Goal_Node))) and (not (np.array_equal(NewNode2, Goal_Node))) and (
-        not (np.array_equal(NewNode3, Goal_Node))) and (not (np.array_equal(NewNode4, Goal_Node)))):
+sol = solvability(solve)
+while (((not (np.array_equal(NewNode1, Goal_Node))) and (not (np.array_equal(NewNode2, Goal_Node))) and (
+        not (np.array_equal(NewNode3, Goal_Node))) and (not (np.array_equal(NewNode4, Goal_Node)))) and sol):
     # global next_node
     Check_and_Add(AllNodes[next_node])
     next_node = next_node + 1
 
+
+if sol ==1:
+
 # Function to remove redundant nodes after goal node
-clean_AllNodes(AllNodes)
+    clean_AllNodes(AllNodes)
 
-print("")
-print("")
-print("***********************  AllNodes in Dictionary  ************************")
-print("")
-print(AllNodes)
-print("")
-print("")
+    # print("")
+    # print("")
+    # print("***********************  AllNodes in Dictionary  ************************")
+    # print("")
+    # print(AllNodes)
+    # print("")
+    # print("")
 
-print("***********************  Parent Nodes  ************************")
-print("")
-print(ParentNodes)
-print("")
-print("")
+    # print("***********************  Parent Nodes  ************************")
+    # print("")
+    # print(ParentNodes)
+    # print("")
+    # print("")
 
-# Function to generate the Goal path from Start node
-print("***********************  Shortest path from Start to Goal Node  ************************")
-goal_path = generate_path(ParentNodes)
-print("")
-print("")
+    # Function to generate the Goal path from Start node
+    print("***********************  Shortest path from Start to Goal Node  ************************")
+    goal_path = generate_path(ParentNodes)
+    print("")
+    print("")
 
-# Function to print the Goal path from Start node
-print_optimalpath(goal_path)
+    # Function to print the Goal path from Start node
+    print_optimalpath(goal_path)
 
-# Creates the .txt Files
-nodePath_filegen(notepad_path)
-NodesInfo_filegen(ParentNodes)
-Nodes_filegen(AllNodes)
+    # Creates the .txt Files
+    nodePath_filegen(notepad_path)
+    NodesInfo_filegen(ParentNodes)
+    Nodes_filegen(AllNodes)
+
+print("Total time taken to solve the puzzle \n")
+print("--- %s seconds ---" % (time.time() - start_time))
